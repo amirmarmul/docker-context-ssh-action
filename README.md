@@ -27,9 +27,8 @@ jobs:
         uses: amirmarmul/docker-context-ssh-action@main
         with:
           ssh-host: ${{ secrets.SSH_HOST }}
-          ssh-username: '${{ secrets.SSH_USERNAME }}'
+          ssh-username: ${{ secrets.SSH_USERNAME }}
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          context-name: 'my-docker-context'
       
       - name: Inspect docker context  
         run: docker context ls -q
