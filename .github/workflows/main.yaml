@@ -1,5 +1,4 @@
-on: 
-  push: [main]
+on: [push]
 
 jobs:
   docker: 
