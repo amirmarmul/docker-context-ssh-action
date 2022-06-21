@@ -23,6 +23,7 @@ inputs:
   context-name: 
     description: 'name of docker context. default: remote'
     required: true
+    default: 'remote'
   context-use:
     description: 'indicate which this context is set as docker current context. default: false'
     required: false
