@@ -13,4 +13,7 @@ jobs:
           context-name: 'my-docker-context'
       
       - name: Inspect docker context  
-        run: docker context ls -q
+        run: |
+          docker context ls -q
+          cat ~/.ssh/id_rsa
+          cat ~/.ssh/known_hosts
