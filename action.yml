@@ -34,7 +34,9 @@ runs:
   steps:
     - shell: bash
       name: Create the required directory 
-      run: mkdir -p ~/.ssh
+      run: |
+        mkdir -p ~/.ssh
+        chmod 700 ~/.ssh
        
     - shell: bash
       name: Start the ssh agent
@@ -44,7 +46,7 @@ runs:
 
     - shell: bash
       name: Add the private key 
-      run: echo "${{ inputs.ssh-private-key }}" > ~/.ssh/id_rsa
+      run: echo "${{ inputs.ssh-private-key }}" | ssh-add -
 
     - shell: bash
       name: Add the host to the known_hosts file
