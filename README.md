@@ -18,15 +18,19 @@ See [action.yml](./action.yml) for more detailed information.
 
 ```yaml
 on: [push]
+
 jobs:
-  build:
+  docker_context_over_ssh_job: 
     runs-on: ubuntu-latest
     steps:
       - name: Set up docker context over SSH authentication
         uses: amirmarmul/docker-context-ssh-action@main
         with:
           ssh-host: ${{ secrets.SSH_HOST }}
-          ssh-username: ${{ secrets.SSH_USERNAME }}
+          ssh-username: '${{ secrets.SSH_USERNAME }}'
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
           context-name: 'my-docker-context'
+      
+      - name: Inspect docker context  
+        run: docker context ls -q
 ```

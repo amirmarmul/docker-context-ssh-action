@@ -55,7 +55,7 @@ runs:
       
     - shell: bash
       name: Set the context as current context 
-      run: if [ "${{ inputs.context-use }}" -eq "true" ]; then docker context use "${{ inputs.context-name }}"; fi
+      run: if [ "${{ inputs.context-use }}" == "true" ]; then docker context use "${{ inputs.context-name }}"; fi
 
 branding:
   icon: 'anchor'

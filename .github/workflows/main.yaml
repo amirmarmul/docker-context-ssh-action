@@ -1,7 +1,7 @@
 on: [push]
 
 jobs:
-  docker: 
+  docker_context_over_ssh_job: 
     runs-on: ubuntu-latest
     steps:
       - name: Set up docker context over SSH authentication
