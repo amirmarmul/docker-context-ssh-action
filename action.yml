@@ -51,7 +51,7 @@ runs:
 
     - shell: bash
       name: Create the docker context 
-      run: docker context create ${{ inputs.context-name }} --docker "host=ssh//${{ inputs.ssh-username}}@${{ inputs.ssh-host }}:${{ inputs.ssh-port }}"
+      run: docker context create ${{ inputs.context-name }} --docker "host=ssh://${{ inputs.ssh-username}}@${{ inputs.ssh-host }}:${{ inputs.ssh-port }}"
       
     - shell: bash
       name: Set the context as current context 
