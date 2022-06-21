@@ -1,0 +1,62 @@
+name: 'Docker context over SSH'
+description: 'Create a docker context over SSH authentication'
+author: 'Amir Marmul'
+
+inputs:
+  ssh-host: 
+    description: 'ssh host'
+    required: true
+  ssh-username: 
+    description: 'ssh username'
+    required: true
+  ssh-private-key:
+    description: 'content of ssh private key. ex raw content of ~/.ssh/id_rsa'
+    required: true
+  ssh-port: 
+    description: 'ssh port, default 22'
+    required: false
+    default: 22
+  ssh-socket: 
+    description: 'ssh socket, default /tmp/ssh-auth.sock'
+    required: false
+    default: '/tmp/ssh-auth.sock'
+  context-name: 
+    description: 'name of docker context. default: remote'
+    required: true
+  context-use:
+    description: 'indicate which this context is set as docker current context. default: false'
+    required: false
+    default: 'false'
+
+runs:
+  using: 'composite'
+  steps:
+    - shell: bash
+      name: Create the required directory 
+      run: mkdir -p ~/.ssh
+       
+    - shell: bash
+      name: Start the ssh agent
+      run: |
+        ssh-agent -a "${{ inputs.ssh-socket }}"
+        export SSH_AUTH_SOCK="${{ inputs.ssh-socket }}"
+
+    - shell: bash
+      name: Add the private key 
+      run: echo "${{ inputs.ssh-private-key }}" > ~/.ssh/id_rsa
+
+    - shell: bash
+      name: Add the host to the known_hosts file
+      run: ssh-keyscan -p "${{ inputs.ssh-port }}" "${{ inputs.ssh-host }}" > ~/.ssh/known_hosts 
+
+    - shell: bash
+      name: Create the docker context 
+      run: docker context create ${{ inputs.context-name }} --docker "host=ssh//${{ inputs.ssh-username}}@${{ inputs.ssh-host }}:${{ inputs.ssh-port }}"
+      
+    - shell: bash
+      name: Set the context as current context 
+      run: if [ "${{ inputs.context-use }}" -eq "true" ]; then docker context use "${{ inputs.context-name }}"; fi
+
+branding:
+  icon: 'anchor'
+  color: 'grey-dark'
