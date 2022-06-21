@@ -52,7 +52,7 @@ runs:
 
     - shell: bash
       name: Add the host to the known_hosts file
-      run: ssh-keyscan -p "${{ inputs.ssh-port }}" "${{ inputs.ssh-host }}" > ~/.ssh/known_hosts > /dev/null 
+      run: ssh-keyscan -p "${{ inputs.ssh-port }}" "${{ inputs.ssh-host }}" > ~/.ssh/known_hosts &> /dev/null 
 
     - shell: bash
       name: Create the docker context 
