@@ -46,7 +46,9 @@ runs:
 
     - shell: bash
       name: Add the private key 
-      run: echo "${{ inputs.ssh-private-key }}" | ssh-add -
+      run: |
+        echo "${{ inputs.ssh-private-key }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
 
     - shell: bash
       name: Add the host to the known_hosts file
