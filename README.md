@@ -1,4 +1,7 @@
-# Docker Context over SSH
+[![GitHub release](https://img.shields.io/github/v/release/amirmarmul/docker-context-ssh-action.svg?style=flat-square)](https://github.com/amirmarmul/docker-context-ssh-action/releases/latest)
+[![GitHub marketplace](https://img.shields.io/badge/marketplace-docker--context--over--ssh-blue?logo=github&style=flat-square)](https://github.com/marketplace/actions/docker-context-over-ssh)
+
+## About 
 
 [Github Action](https://github.com/features/actions) for creating docker context over SSH authentication.
 
