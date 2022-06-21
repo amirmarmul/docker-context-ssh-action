@@ -41,18 +41,18 @@ runs:
     - shell: bash
       name: Start the ssh agent
       run: |
-        ssh-agent -a "${{ inputs.ssh-socket }}" > /dev/null
-        export SSH_AUTH_SOCK="${{ inputs.ssh-socket }}" > /dev/null
+        ssh-agent -a "${{ inputs.ssh-socket }}"
+        export SSH_AUTH_SOCK="${{ inputs.ssh-socket }}"
 
     - shell: bash
       name: Add the private key 
       run: |
-        echo "${{ inputs.ssh-private-key }}" > ~/.ssh/id_rsa > /dev/null
+        echo "${{ inputs.ssh-private-key }}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa 
 
     - shell: bash
       name: Add the host to the known_hosts file
-      run: ssh-keyscan -p "${{ inputs.ssh-port }}" "${{ inputs.ssh-host }}" > ~/.ssh/known_hosts &> /dev/null 
+      run: ssh-keyscan -p "${{ inputs.ssh-port }}" "${{ inputs.ssh-host }}" > ~/.ssh/known_hosts
 
     - shell: bash
       name: Create the docker context 
