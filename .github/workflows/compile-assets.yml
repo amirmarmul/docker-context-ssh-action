@@ -1,0 +1,7 @@
+name: update changelog
+
+on: [push]
+
+jobs:
+  update:
+    uses: amirmarmul/.github/.github/workflows/update-changelog.yml@main
