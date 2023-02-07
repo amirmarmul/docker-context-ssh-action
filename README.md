@@ -13,6 +13,7 @@ See [action.yml](./action.yml) for more detailed information.
 * `ssh-port` - ssh port, default 22
 * `ssh-username` - ssh username
 * `ssh-private-key` - content of ssh private key. ex raw content of ~/.ssh/id_rsa
+* `ssh-passphrase` - passphrase for ssh private key. no default.
 * `ssh-socket` - ssh socket, default /tmp/ssh-auth.sock
 * `context-name` - name of docker context. default: remote
 * `context-use` - indicate which this context is set as docker current context. default: false
@@ -32,6 +33,7 @@ jobs:
           ssh-host: ${{ secrets.SSH_HOST }}
           ssh-username: ${{ secrets.SSH_USERNAME }}
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ssh-passphrase: ${{ secrets.SSH_PASSPHRASE }}
       
       - name: Inspect docker context  
         run: docker context ls -q

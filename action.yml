@@ -12,6 +12,9 @@ inputs:
   ssh-private-key:
     description: 'content of ssh private key. ex raw content of ~/.ssh/id_rsa'
     required: true
+  ssh-passphrase:
+    description: 'passphrase for private key, optional'
+    required: false
   ssh-port: 
     description: 'ssh port, default 22'
     required: false
@@ -37,12 +40,6 @@ runs:
       run: |
         mkdir -p ~/.ssh
         chmod 700 ~/.ssh
-       
-    - shell: bash
-      name: Start the ssh agent
-      run: |
-        ssh-agent -a "${{ inputs.ssh-socket }}"
-        export SSH_AUTH_SOCK="${{ inputs.ssh-socket }}"
 
     - shell: bash
       name: Add the private key 
@@ -55,8 +52,22 @@ runs:
       run: ssh-keyscan -p "${{ inputs.ssh-port }}" "${{ inputs.ssh-host }}" > ~/.ssh/known_hosts
 
     - shell: bash
-      name: Create the docker context 
+      name: Create the docker context
       run: docker context create ${{ inputs.context-name }} --docker "host=ssh://${{ inputs.ssh-username}}@${{ inputs.ssh-host }}:${{ inputs.ssh-port }}"
+
+    - shell: bash
+      name: Start the ssh agent and set the environment variables
+      run: |
+        ssh-agent -a "${{ inputs.ssh-port }}"
+        echo "SSH_AUTH_SOCK=${{ inputs.ssh-port}}" >> $GITHUB_ENV
+        echo "SSH_AGENT_PID=$SSH_AGENT_PID" >> $GITHUB_ENV
+
+    - shell: bash
+      # https://unix.stackexchange.com/a/571756/559668
+      name: Run ssh-add with passphrase
+      if: ${{ inputs.ssh-passphrase }}
+      run: |
+        { sleep 1; echo ${{ inputs.ssh-passphrase }}; } | script -q /dev/null -c 'ssh-add'
       
     - shell: bash
       name: Set the context as current context 
